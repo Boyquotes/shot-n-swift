@@ -85,7 +85,7 @@ func _on_Ball_body_entered(body):
 		gameover()
 		die()
 	if body.get_groups().has("coin"):
-		body.queue_free()
+		body.kill()
 		Global.coins += 1
 #		controller.play_score_anim()
 	pass # Replace with function body.

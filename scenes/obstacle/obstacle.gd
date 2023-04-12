@@ -6,7 +6,7 @@ var vel : Vector2 = Vector2(0,0)
 onready var obstacle_spawner  = get_parent().get_parent()
 onready var obstacles = get_parent().get_parent().obstacles
 
-var rotating = true
+var rotating = false
 func _ready():
 	$Sprite.rotation_degrees = rand_range(0, 360)
 	pass

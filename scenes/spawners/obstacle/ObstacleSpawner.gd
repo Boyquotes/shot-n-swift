@@ -6,7 +6,7 @@ onready var obstacles = $obstacles
 onready var coins = $coins
 onready var spawn_timer = $Timer
 
-var obs_speed =  500
+var obs_speed =  00
 var spawn_y_offset : int = 200
 
 var can_spawn = true
@@ -21,7 +21,7 @@ func _ready():
 
 func _start():
 	spawn_timer.wait_time = 0.5
-	obs_speed = 500
+	obs_speed = 600
 	
 	spawn_timer.start()
 	
@@ -29,8 +29,8 @@ func _start():
 
 func increase_diff():
 	#highest speed 700, lowest wai time 0.3
-	obs_speed += 20
-	if spawn_timer.wait_time > 0.2: spawn_timer.wait_time -= 0.02
+	obs_speed += 50
+	if spawn_timer.wait_time > 0.2: spawn_timer.wait_time -= 0.05
 	pass
 
 
