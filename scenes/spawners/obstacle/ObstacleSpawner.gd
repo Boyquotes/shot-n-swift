@@ -29,8 +29,8 @@ func _start():
 
 func increase_diff():
 	#highest speed 700, lowest wai time 0.3
-	obs_speed += 50
-	if spawn_timer.wait_time > 0.2: spawn_timer.wait_time -= 0.05
+	obs_speed += 25
+	if spawn_timer.wait_time > 0.2: spawn_timer.wait_time -= 0.025
 	pass
 
 
@@ -69,8 +69,9 @@ func _on_Timer_timeout() -> void:
 		spawn_timer.stop()
 		return
 	if can_spawn: 
-		if !Global.is_levelup: instanceItem()
-		else: instanceCoin()
+#		if !Global.is_levelup: instanceItem()
+#		else: instanceCoin()
+		pass
 	else:
 		if !Global.is_levelup: randCoin()
 		else: instanceCoin()

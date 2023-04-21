@@ -3,8 +3,13 @@ extends KinematicBody2D
 var speed : int = 100
 var vel : Vector2 = Vector2(0,0)
 
+onready var sprite = $ColorRect
+onready var tween = $Tween
 onready var obstacle_spawner  = get_parent().get_parent()
+onready var collision = $CollisionShape2D
 
+onready var end_anim = $AnimationPlayer2
+onready var coin_label_scene = preload("res://scenes/coin/CoinLabel.tscn")
 var dead = false
 
 func _ready():
@@ -14,8 +19,28 @@ func setParams(_speed: int) -> void:
 	speed = _speed
 	vel.y = -speed
 
+func add_label():
+	var coin_label = coin_label_scene.instance()
+	coin_label.global_position = global_position
+	obstacle_spawner.add_child(coin_label)
+	pass
+
 func kill() -> void:
+	collision.set_deferred("disabled", true)
+	sprite.hide()
+	add_label()
+	
+	set_physics_process(false)
+	end_anim.play("fade_out")
+	
+	yield(end_anim, "animation_finished")
 	queue_free()
+	pass
+
+func knockback(vel):
+	var knock_force = vel * 200
+	tween.start()
+	tween.interpolate_property(self, "global_position", global_position, global_position + knock_force, 0.1,Tween.TRANS_BACK, Tween.EASE_OUT)
 	pass
 
 func _physics_process(delta) -> void:

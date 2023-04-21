@@ -7,32 +7,33 @@ onready var tween = $Animations/Tween
 onready var slowmoController = $SlowmoController
 onready var camera = $GUI/Camera2D
 
-onready var progress_timer = $Timers/ProgressTimer
-onready var progress_tween = $Animations/ProgressTween
-
 onready var splash_particle_scene = preload("res://scenes/particles/Rect_particle.tscn")
 onready var particles = $Particles
 
 onready var level_system = $Score/LevelSystem
 onready var levelup_anim = $Score/LevelUpAnim
 onready var levelup_anim_timer = $Score/LevelUpAnim/Timer
-
-var progress_bar = null
-var hit_value = 25
+#onready var energy_bill = $"../GUI/Stats/EnergyBill"
 
 var ball = null
 var next_target = null
 var ball_destination = null
 
-const main_speed: float = 0.16
+const main_speed: float = 0.142
 const slowmo_speed: float = 5.0
 onready var speed = main_speed
 
+var ricochet_speed = 0.1
+var next_target_time = 0.1
 
 
 var can_click = false
+var control_click = true
+
 var _modulate = null
 
+onready var flash_anim = $GUI/Flash/AnimationPlayer
+onready var control_timer = $Timers/ControlTimer
 onready var anim = $Animations/AnimationPlayer
 
 
@@ -45,7 +46,7 @@ func _ready():
 func _start():
 	can_click = true
 	Global.currentPoints = 0
-	Global.highscore = 0
+#	Global.highscore = 0
 	level_system.start()
 	level_system.enter()
 #	anim.play("shake")
@@ -54,12 +55,13 @@ func level_up():
 	level_system.exit()
 	levelup_anim_timer.start()
 	levelup_anim.get_node("AnimationPlayer").play("enter")
-	levelup_anim.get_node("Shower/AnimationPlayer").play("New Anim")
+#	levelup_anim.get_node("Shower/AnimationPlayer").play("New Anim")
 	Global.is_levelup = true
 	
 	yield(levelup_anim_timer, "timeout")
+	levelup_anim_timer.wait_time += 0.5
 	levelup_anim.get_node("AnimationPlayer").play_backwards("exit")
-	levelup_anim.get_node("Shower/AnimationPlayer").stop()
+#	levelup_anim.get_node("Shower/AnimationPlayer").stop()
 	level_system.enter()
 	Global.is_levelup = false
 	Global.emit_signal("diff_increase")
@@ -79,7 +81,10 @@ func push_back(vel):
 
 func set_points():
 	level_system.set_points()
-	
+	pass
+
+func flash():
+	flash_anim.play("flash")
 	pass
 func gameover():
 	level_system.exit()
@@ -91,26 +96,11 @@ func gameover():
 func play_blink(child):
 	child.get_node("dot").show()
 	child.get_node("AnimationPlayer").play("blink")
-	
-	var hit_value = 20
-	var pbar : ProgressBar =  child.get_node("ProgressBar")
-	var second_progress = pbar.get_node("ProgressBar2")
-	progress_bar = pbar
-	pbar.show()
-	second_progress.value = pbar.max_value
-	pbar.value = pbar.max_value
-	
-	if !Global.gameover: progress_timer.start()
-	
 	pass
 
 func stop_blink(child):
 	child.get_node("dot").hide()
 	child.get_node("AnimationPlayer").stop()
-	
-	var pbar =  child.get_node("ProgressBar")
-	pbar.hide()
-	progress_timer.stop()
 	pass
 
 func play_fade(child):
@@ -158,7 +148,7 @@ func nextTarget() -> void:
 	var child = options[randi()%options.size()]
 	var pos = child
 	
-	yield(get_tree().create_timer(0.2),"timeout")
+	yield(get_tree().create_timer(next_target_time),"timeout")
 	#highlight next target
 	next_target.get_child(0).modulate = _modulate
 	stop_blink(next_target)
@@ -194,24 +184,26 @@ func spawn_splash_particle(pos):
 		particles.add_child(item)
 	pass
 
-#func ball_ricochet(amt):
-#	var move_speed = 0.1
-#	var time_speed = 0.1
-#
-#	ball.monitoring = false
-#	for i in amt:
-#		ball.moveToTarget(next_target.position, move_speed)
-#		nextTarget()
-#		ball.set_indicator(next_target)
-#		if i == (amt - 2): 
-#			#slow down
-#			print("slow down")
-#		yield(get_tree().create_timer(time_speed),"timeout")
-#
-#
-#	ball.monitoring = true
-#	can_click = true
-#	pass
+func ball_ricochet(amt):
+	if !ball: return
+	var move_speed = 0.1
+	var time_speed = 0.1
+	
+	ball.start_ricochet()
+	yield(get_tree().create_timer(0.1),"timeout")
+	ball.start_ricochet()
+	for i in amt:
+		if !ball: break
+		if i == (amt -1):
+#			slowmoController.enter_slowmo()
+			ball.is_ricochet_playing = true
+		ball.moveToTarget(next_target.position, move_speed)
+		nextTarget()
+		ball.set_indicator(next_target)
+		yield(get_tree().create_timer(time_speed),"timeout")
+
+	can_click = true
+	pass
 
 func start_slowmo():
 	can_click = false
@@ -224,32 +216,30 @@ func end_slowmo():
 	if ball: ball.end_slowmo(4)
 
 func _input(event):
-	if can_click and ball:
+	if can_click and ball and control_click:
 		if Input.is_action_just_pressed("click"):
+			if ball.raycast_colliding:
+				slowmoController.enter_slowmo()
 			moveBall(speed)
+			can_click = false
+#			Global.energy += 10
 			
 		if event is InputEventMouseButton and event.is_pressed():
 			if ball.raycast_colliding:
 				slowmoController.enter_slowmo()
 			moveBall(speed)
 			can_click = false
+			control_timer.start()
+			control_click = false
+#			Global.emit_signal("add_energy")
+		if Input.is_action_just_pressed("special attack"):
+			ball_ricochet(4)
 
 func set_gameover() -> void:
 	ball = null
 	shake_camera(0.4)
 	get_tree().get_nodes_in_group("gameover")[0].show()
-	progress_timer.stop()
 
-func _on_ProgressTimer_timeout():
-	var value = 0
-	if progress_bar: 
-		var second_progress = progress_bar.get_node("ProgressBar2")
-		value = progress_bar.value - hit_value
-		progress_tween.start()
-		progress_tween.interpolate_property(progress_bar, "value", progress_bar.value, progress_bar.value - hit_value, 0.3, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
-		progress_tween.interpolate_property(second_progress, "value", second_progress.value, second_progress.value - hit_value, 0.3, Tween.TRANS_BOUNCE, Tween.EASE_IN)
-
-	if value <= 0: 
-		ball.die()
-		set_gameover()
+func _on_ControlTimer_timeout():
+	control_click = true
 	pass # Replace with function body.

@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/ball/Ball.gd" type="Script" id=1]
 [ext_resource path="res://assets/circle.png" type="Texture" id=2]
 [ext_resource path="res://assets/small_circle.png" type="Texture" id=3]
 [ext_resource path="res://assets/icons8-play-96.png" type="Texture" id=4]
+[ext_resource path="res://scenes/ball/Line2D.gd" type="Script" id=5]
 
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0.876341 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -2.29546, 0.0, 0, 0 ]
@@ -59,11 +60,40 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.25, 0.35, 0.45 ),
 "transitions": PoolRealArray( 2, 2, 0.5, 0.5, 0.5 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0.7, 0.7 ), Vector2( 1, 1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Animation" id=13]
+length = 0.001
+
+[sub_resource type="Animation" id=14]
+resource_name = "show"
+length = 0.6
+
+[sub_resource type="Animation" id=15]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.964706, 0.113725, 0.239216, 1 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "hit"
+step = 0.05
+
+[sub_resource type="CircleShape2D" id=17]
+radius = 30.0167
 
 [node name="Ball" type="Area2D"]
 collision_layer = 3
@@ -126,6 +156,9 @@ z_index = -1
 width = 40.0
 width_curve = SubResource( 7 )
 default_color = Color( 0.964706, 0.113725, 0.239216, 1 )
+begin_cap_mode = 2
+script = ExtResource( 5 )
+length = 16
 
 [node name="RotationTween" type="Tween" parent="."]
 
@@ -135,7 +168,32 @@ default_color = Color( 0.964706, 0.113725, 0.239216, 1 )
 wait_time = 0.08
 one_shot = true
 
+[node name="ProgressTimer" type="Timer" parent="."]
+
+[node name="ProgressTween" type="Tween" parent="."]
+
+[node name="ProgressAnim" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 13 )
+anims/show = SubResource( 14 )
+
+[node name="DelayProgressTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="TakeHitAnim" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 15 )
+anims/hit = SubResource( 16 )
+
+[node name="CoinArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CoinArea"]
+shape = SubResource( 17 )
+
 [connection signal="body_entered" from="." to="." method="_on_Ball_body_entered"]
 [connection signal="area_entered" from="body/RayCastArea" to="." method="_on_RayCastArea_area_entered"]
 [connection signal="area_exited" from="body/RayCastArea" to="." method="_on_RayCastArea_area_exited"]
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
+[connection signal="timeout" from="ProgressTimer" to="." method="_on_ProgressTimer_timeout"]
+[connection signal="body_entered" from="CoinArea" to="." method="_on_CoinArea_body_entered"]

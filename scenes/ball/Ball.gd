@@ -11,13 +11,40 @@ onready var endslowmo_timer = $endSlowmoTimer
 onready var raycastarea = $body/RayCastArea
 onready var splashball_scene = preload("res://scenes/splashball/SplashBall.tscn")
 
+
+var hit_value = 25
+
 var next_target = null
 var push_vel = null
 var move_speed = 0.0
+var move_angle = 0
 
 var raycast_colliding = false
+var is_ricochet_playing = false
+var ricochet_mode = false
 func _ready():
-	
+	take_hit()
+	pass
+
+func take_hit():
+	pass
+
+
+func stop_hit():
+	pass
+
+func start_ricochet():
+	monitoring = false
+	ricochet_mode = true
+	$Line2D.show()
+#	$body.hide()
+	pass
+
+func end_ricochet():
+#	$Line2D.hide()
+	monitoring = true
+	is_ricochet_playing = false
+	ricochet_mode = false
 	pass
 
 func set_indicator(target):
@@ -26,6 +53,7 @@ func set_indicator(target):
 	if indicator and indicator.is_inside_tree():
 		push_vel = (target.global_position - global_position).normalized()
 		var angle = (target.global_position - global_position).angle()
+		move_angle = angle
 		raycastarea.global_rotation = angle
 		rotate_tween.start()
 		rotate_tween.interpolate_property(indicator, "global_rotation", global_rotation, angle, 0.4, Tween.TRANS_BACK,Tween.EASE_OUT)
@@ -50,14 +78,20 @@ func end_slowmo(speed):
 	pass
 
 func moveToTarget(target_pos: Vector2, speed) -> void:
-	anim.play("shrink")
-	trail.emitting = true
+	#>>>>>>
+	stop_hit()
+	
+	#<<<<<<
+	if !ricochet_mode: 
+		anim.play("shrink")
+		trail.emitting = true
+		$Line2D.hide()
 	tween.start()
 	tween.interpolate_property(self, "position", position, target_pos, speed, Tween.TRANS_LINEAR, Tween.EASE_IN)
 
 	yield(tween, "tween_completed")
 	controller.push_back(push_vel)
-	controller.spawn_splash_particle(target_pos)
+	if !ricochet_mode: controller.spawn_splash_particle(target_pos)
 	set_indicator(next_target)
 	
 	
@@ -68,6 +102,13 @@ func moveToTarget(target_pos: Vector2, speed) -> void:
 	controller.play_score_anim()
 	controller.can_click = true
 	trail.emitting = false
+	
+	if is_ricochet_playing:
+		end_ricochet()
+		pass
+	#>>>>>>
+	take_hit()
+	# <<<<<
 	pass
 
 func gameover() -> void:
@@ -77,6 +118,7 @@ func gameover() -> void:
 func die():
 	queue_free()
 	spawn_balls()
+	controller.flash()
 	Global.gameover = true
 	pass
 	
@@ -84,10 +126,6 @@ func _on_Ball_body_entered(body):
 	if body.get_groups().has("obstacle"):
 		gameover()
 		die()
-	if body.get_groups().has("coin"):
-		body.kill()
-		Global.coins += 1
-#		controller.play_score_anim()
 	pass # Replace with function body.
 
 func spawn_balls():
@@ -141,4 +179,12 @@ func _on_RayCastArea_area_entered(_area):
 
 func _on_RayCastArea_area_exited(_area):
 	raycast_colliding = false
+	pass # Replace with function body.
+
+
+func _on_CoinArea_body_entered(body):
+	if body.get_groups().has("coin"):
+		body.kill()
+#		body.knockback(push_vel)
+		Global.coins += 1
 	pass # Replace with function body.

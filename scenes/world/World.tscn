@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scenes/spawners/obstacle/ObstacleSpawner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller/PlayerController.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://scenes/world/CoinLabel.gd" type="Script" id=11]
 [ext_resource path="res://assets/shower.png" type="Texture" id=12]
 [ext_resource path="res://fonts/GilaBold-p7Rdr.otf" type="DynamicFontData" id=13]
+[ext_resource path="res://assets/rect_fade.png" type="Texture" id=14]
 
 [sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 1, 0.933333, 0.203922, 1 )
@@ -284,10 +285,22 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( 0.3, 0.3 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Shower:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=21]
 resource_name = "enter"
-length = 0.4
+length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
 tracks/0/interp = 1
@@ -320,9 +333,21 @@ tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 0.5, 0.5 ),
+"transitions": PoolRealArray( 0.5, 2 ),
 "update": 0,
-"values": [ Vector2( 0.3, 0.3 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 0.1, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Shower:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=22]
@@ -358,23 +383,23 @@ flags = 5
 load_path = "res://.import/icons8-coins-64.png-3c4d25b7dd4e5ad86f269f9881ce39cf.stex"
 
 [sub_resource type="DynamicFont" id=14]
-size = 58
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 15
-font_data = ExtResource( 4 )
-
-[sub_resource type="DynamicFont" id=1]
-size = 58
+size = 60
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 12
 font_data = ExtResource( 4 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="DynamicFont" id=1]
+size = 60
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 12
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=26]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("../../GUI/Stats/Score/HBoxContainer/Label:rect_scale")
+tracks/0/path = NodePath("Label:rect_scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -386,21 +411,20 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=27]
 resource_name = "scale"
-length = 0.3
-step = 0.05
+length = 0.2
 tracks/0/type = "value"
-tracks/0/path = NodePath("../../GUI/Stats/Score/HBoxContainer/Label:rect_scale")
+tracks/0/path = NodePath("Label:rect_scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15, 0.3 ),
-"transitions": PoolRealArray( 2, 0.5, 2 ),
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 0.5, 2, 0.5 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1.3 ), Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -595,12 +619,13 @@ anims/exit = SubResource( 18 )
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_right = 0.5
+margin_left = -89.0
 margin_top = 60.0
-margin_right = 356.0
+margin_right = 267.0
 margin_bottom = 60.0
 
 [node name="Shower" type="Control" parent="PlayerController/Score/LevelUpAnim"]
-visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -612,6 +637,7 @@ margin_bottom = 20.0
 rect_scale = Vector2( 0.3, 0.3 )
 
 [node name="TextureRect" type="TextureRect" parent="PlayerController/Score/LevelUpAnim/Shower"]
+visible = false
 modulate = Color( 1, 0.917647, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -632,6 +658,31 @@ playback_speed = 0.6
 "anims/New Anim" = SubResource( 24 )
 anims/RESET = SubResource( 25 )
 
+[node name="TextureRect2" type="TextureRect" parent="PlayerController/Score/LevelUpAnim/Shower"]
+modulate = Color( 1, 0.917647, 0, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -438.5
+margin_top = -77.5
+margin_right = 438.5
+margin_bottom = 77.5
+texture = ExtResource( 14 )
+
+[node name="TextureRect3" type="TextureRect" parent="PlayerController/Score/LevelUpAnim/Shower"]
+modulate = Color( 1, 0.917647, 0, 0.152941 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -438.5
+margin_top = -96.0
+margin_right = 438.5
+margin_bottom = 96.0
+texture = ExtResource( 14 )
+expand = true
+
 [node name="VBoxContainer" type="VBoxContainer" parent="PlayerController/Score/LevelUpAnim"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -641,6 +692,7 @@ margin_left = -353.0
 margin_top = -47.5
 margin_right = 353.0
 margin_bottom = 47.5
+custom_constants/separation = 5
 
 [node name="Label" type="Label" parent="PlayerController/Score/LevelUpAnim/VBoxContainer"]
 modulate = Color( 1, 0.933333, 0.203922, 1 )
@@ -655,9 +707,9 @@ align = 1
 valign = 1
 
 [node name="Label2" type="Label" parent="PlayerController/Score/LevelUpAnim/VBoxContainer"]
-margin_top = 84.0
+margin_top = 85.0
 margin_right = 706.0
-margin_bottom = 114.0
+margin_bottom = 115.0
 custom_fonts/font = SubResource( 23 )
 text = "DIFF +1 PERKS +1"
 align = 1
@@ -669,7 +721,7 @@ anims/enter = SubResource( 21 )
 anims/exit = SubResource( 22 )
 
 [node name="Timer" type="Timer" parent="PlayerController/Score/LevelUpAnim"]
-wait_time = 4.0
+wait_time = 3.0
 one_shot = true
 
 [node name="GUI" type="CanvasLayer" parent="."]
@@ -691,31 +743,41 @@ rect_min_size = Vector2( 300, 80 )
 rect_pivot_offset = Vector2( 150, 40 )
 text = "gameover"
 
-[node name="Stats" type="Control" parent="GUI"]
+[node name="Stats" type="MarginContainer" parent="GUI"]
 anchor_right = 1.0
-margin_bottom = 218.0
+margin_bottom = 160.0
 mouse_filter = 2
+custom_constants/margin_right = 40
+custom_constants/margin_left = 40
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Coin" type="CenterContainer" parent="GUI/Stats"]
-margin_right = 156.0
-margin_bottom = 207.0
+[node name="Coin" type="HBoxContainer" parent="GUI/Stats"]
+margin_left = 40.0
+margin_right = 680.0
+margin_bottom = 160.0
 mouse_filter = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Stats/Coin"]
-margin_left = 39.0
-margin_top = 66.0
-margin_right = 116.0
-margin_bottom = 141.0
+[node name="VBoxContainer" type="HBoxContainer" parent="GUI/Stats/Coin"]
+margin_right = 640.0
+margin_bottom = 160.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 40
 
-[node name="TextureRect" type="TextureRect" parent="GUI/Stats/Coin/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Stats/Coin/VBoxContainer"]
+margin_right = 84.0
+margin_bottom = 160.0
+custom_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer"]
+margin_top = 42.0
 margin_right = 45.0
-margin_bottom = 75.0
+margin_bottom = 117.0
 rect_min_size = Vector2( 45, 75 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -726,12 +788,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Label" type="Label" parent="GUI/Stats/Coin/HBoxContainer"]
-margin_left = 49.0
-margin_top = 3.0
-margin_right = 77.0
-margin_bottom = 71.0
-rect_pivot_offset = Vector2( 17, 39 )
+[node name="Label" type="Label" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer"]
+margin_left = 55.0
+margin_top = 47.0
+margin_right = 84.0
+margin_bottom = 113.0
+rect_pivot_offset = Vector2( 12, 25 )
 size_flags_horizontal = 0
 custom_fonts/font = SubResource( 14 )
 text = "0"
@@ -739,25 +801,37 @@ align = 1
 valign = 1
 script = ExtResource( 11 )
 
-[node name="Score" type="CenterContainer" parent="GUI/Stats"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -156.0
-margin_bottom = 207.0
-mouse_filter = 2
+[node name="SpaceBetween" type="Control" parent="GUI/Stats/Coin/VBoxContainer"]
+margin_left = 124.0
+margin_right = 516.0
+margin_bottom = 160.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Stats/Score"]
-margin_left = 39.0
-margin_top = 3.0
-margin_right = 116.0
-margin_bottom = 203.0
-rect_min_size = Vector2( 0, 200 )
+[node name="HBoxContainer2" type="HBoxContainer" parent="GUI/Stats/Coin/VBoxContainer"]
+margin_left = 556.0
+margin_right = 640.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 0, 75 )
+custom_constants/separation = 10
 
-[node name="Label" type="Label" parent="GUI/Stats/Score/HBoxContainer"]
-margin_top = 67.0
-margin_right = 28.0
-margin_bottom = 132.0
-rect_pivot_offset = Vector2( 17, 39 )
+[node name="TextureRect" type="TextureRect" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer2"]
+margin_top = 50.0
+margin_right = 45.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 45, 60 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer2"]
+margin_left = 55.0
+margin_top = 47.0
+margin_right = 84.0
+margin_bottom = 113.0
+rect_pivot_offset = Vector2( 12, 25 )
 size_flags_horizontal = 0
 custom_fonts/font = SubResource( 1 )
 text = "0"
@@ -765,22 +839,9 @@ align = 1
 valign = 1
 script = ExtResource( 5 )
 
-[node name="TextureRect" type="TextureRect" parent="GUI/Stats/Score/HBoxContainer"]
-margin_left = 32.0
-margin_top = 62.0
-margin_right = 77.0
-margin_bottom = 137.0
-rect_min_size = Vector2( 45, 75 )
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource( 10 )
-expand = true
-stretch_mode = 6
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Stats/Score"]
-root_node = NodePath("../../../../PlayerController/Score")
-anims/RESET = SubResource( 7 )
-anims/scale = SubResource( 8 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer2"]
+anims/RESET = SubResource( 26 )
+anims/scale = SubResource( 27 )
 
 [node name="Collision" type="CanvasLayer" parent="."]
 

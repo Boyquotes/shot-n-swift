@@ -15,6 +15,7 @@ func _ready():
 	pass
 
 func enter_slowmo():
+	get_parent().next_target_time = 0.4
 	get_parent().start_slowmo()
 	tween.stop_all()
 	tween.interpolate_property(Engine, "time_scale", Engine.time_scale, slow_mo_time_scale, enter_time, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
@@ -32,23 +33,6 @@ func exit_slowmo():
 	
 	get_parent().end_slowmo()
 	yield(tween, "tween_completed")
+	get_parent().next_target_time = 0.1
 #	end_slowmo()
 	pass
-
-func start_slowmo():
-	Engine.time_scale = slow_mo_time_scale
-	slowmo_active = true
-	pass
-
-func end_slowmo():
-	Engine.time_scale = normal_time_scale
-	slowmo_active = false
-	pass
-
-#func request_slowmo_change():
-#	print("request slowmo", slowmo_active)
-#	if !slowmo_active:
-#		enter_slowmo()
-#	else:
-#		exit_slowmo()
-#	pass

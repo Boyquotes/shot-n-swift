@@ -6,9 +6,10 @@ var gameover = false
 
 var level = 1
 var currentPoints = 0
-var levelPoints = 10
+var levelPoints = 2
 
 var is_levelup = false
+#save levelup timer waittime
 
 signal diff_increase
 

@@ -6,7 +6,7 @@ onready var tween = $Animations/Tween
 onready var gameover = $GUI/Gameover
 onready var spots = $PlayerController/Spots
 onready var anim = $Animations/AnimationPlayer
-onready var label_anim = $GUI/Stats/Score/AnimationPlayer
+onready var label_anim = $GUI/Stats/Coin/VBoxContainer/HBoxContainer2/AnimationPlayer
 var main_scene = null
 func _ready():
 	hide()
@@ -14,7 +14,7 @@ func _ready():
 	pass
 
 func reset():
-	Global.highscore = 0
+#	Global.highscore = 0
 	Global.gameover = false
 	pass
 

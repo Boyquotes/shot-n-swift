@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scenes/slowmo/SlowmoController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller/PlayerController.gd" type="Script" id=2]
 [ext_resource path="res://scenes/camera/camera.gd" type="Script" id=3]
 [ext_resource path="res://assets/circle.png" type="Texture" id=4]
+[ext_resource path="res://scenes/flash/Flash.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Animation" id=11]
 length = 0.001
@@ -63,41 +64,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=23]
 resource_name = "fade"
-
-[sub_resource type="StyleBoxFlat" id=44]
-bg_color = Color( 0.219608, 0.678431, 0.286275, 1 )
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-anti_aliasing_size = 0.8
-
-[sub_resource type="StyleBoxEmpty" id=45]
-
-[sub_resource type="StyleBoxFlat" id=46]
-bg_color = Color( 0.964706, 0.113725, 0.239216, 1 )
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-anti_aliasing_size = 0.8
-
-[sub_resource type="StyleBoxFlat" id=47]
-bg_color = Color( 0.964706, 0.113725, 0.239216, 0.12549 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_left = 2.0
-expand_margin_right = 2.0
-expand_margin_top = 2.0
-expand_margin_bottom = 2.0
-anti_aliasing_size = 0.8
 
 [sub_resource type="Animation" id=24]
 length = 0.001
@@ -456,28 +422,6 @@ anims/RESET = SubResource( 11 )
 anims/blink = SubResource( 12 )
 anims/fade = SubResource( 23 )
 
-[node name="ProgressBar" type="ProgressBar" parent="Spots/spot"]
-visible = false
-margin_left = -31.8812
-margin_top = 56.8475
-margin_right = 38.1188
-margin_bottom = 68.8475
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 44 )
-custom_styles/bg = SubResource( 45 )
-value = 50.0
-percent_visible = false
-
-[node name="ProgressBar2" type="ProgressBar" parent="Spots/spot/ProgressBar"]
-show_behind_parent = true
-margin_right = 70.0
-margin_bottom = 12.0
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 46 )
-custom_styles/bg = SubResource( 47 )
-value = 80.0
-percent_visible = false
-
 [node name="spot2" type="Node2D" parent="Spots"]
 position = Vector2( 190, -220 )
 __meta__ = {
@@ -500,28 +444,6 @@ playback_speed = 1.2
 anims/RESET = SubResource( 24 )
 anims/blink = SubResource( 25 )
 anims/fade = SubResource( 26 )
-
-[node name="ProgressBar" type="ProgressBar" parent="Spots/spot2"]
-visible = false
-margin_left = -31.8812
-margin_top = 56.8475
-margin_right = 38.1188
-margin_bottom = 68.8475
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 44 )
-custom_styles/bg = SubResource( 45 )
-value = 50.0
-percent_visible = false
-
-[node name="ProgressBar2" type="ProgressBar" parent="Spots/spot2/ProgressBar"]
-show_behind_parent = true
-margin_right = 70.0
-margin_bottom = 12.0
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 46 )
-custom_styles/bg = SubResource( 47 )
-value = 80.0
-percent_visible = false
 
 [node name="spot3" type="Node2D" parent="Spots"]
 position = Vector2( -190, 0 )
@@ -546,28 +468,6 @@ anims/RESET = SubResource( 27 )
 anims/blink = SubResource( 28 )
 anims/fade = SubResource( 29 )
 
-[node name="ProgressBar" type="ProgressBar" parent="Spots/spot3"]
-visible = false
-margin_left = -31.8812
-margin_top = 56.8475
-margin_right = 38.1188
-margin_bottom = 68.8475
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 44 )
-custom_styles/bg = SubResource( 45 )
-value = 50.0
-percent_visible = false
-
-[node name="ProgressBar2" type="ProgressBar" parent="Spots/spot3/ProgressBar"]
-show_behind_parent = true
-margin_right = 70.0
-margin_bottom = 12.0
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 46 )
-custom_styles/bg = SubResource( 47 )
-value = 80.0
-percent_visible = false
-
 [node name="spot4" type="Node2D" parent="Spots"]
 position = Vector2( 190, 0 )
 __meta__ = {
@@ -590,28 +490,6 @@ playback_speed = 1.2
 anims/RESET = SubResource( 30 )
 anims/blink = SubResource( 31 )
 anims/fade = SubResource( 32 )
-
-[node name="ProgressBar" type="ProgressBar" parent="Spots/spot4"]
-visible = false
-margin_left = -31.8812
-margin_top = 56.8475
-margin_right = 38.1188
-margin_bottom = 68.8475
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 44 )
-custom_styles/bg = SubResource( 45 )
-value = 50.0
-percent_visible = false
-
-[node name="ProgressBar2" type="ProgressBar" parent="Spots/spot4/ProgressBar"]
-show_behind_parent = true
-margin_right = 70.0
-margin_bottom = 12.0
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 46 )
-custom_styles/bg = SubResource( 47 )
-value = 80.0
-percent_visible = false
 
 [node name="spot5" type="Node2D" parent="Spots"]
 position = Vector2( -190, 220 )
@@ -636,28 +514,6 @@ anims/RESET = SubResource( 33 )
 anims/blink = SubResource( 34 )
 anims/fade = SubResource( 35 )
 
-[node name="ProgressBar" type="ProgressBar" parent="Spots/spot5"]
-visible = false
-margin_left = -31.8812
-margin_top = 56.8475
-margin_right = 38.1188
-margin_bottom = 68.8475
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 44 )
-custom_styles/bg = SubResource( 45 )
-value = 50.0
-percent_visible = false
-
-[node name="ProgressBar2" type="ProgressBar" parent="Spots/spot5/ProgressBar"]
-show_behind_parent = true
-margin_right = 70.0
-margin_bottom = 12.0
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 46 )
-custom_styles/bg = SubResource( 47 )
-value = 80.0
-percent_visible = false
-
 [node name="spot6" type="Node2D" parent="Spots"]
 position = Vector2( 190, 220 )
 __meta__ = {
@@ -681,28 +537,6 @@ anims/RESET = SubResource( 36 )
 anims/blink = SubResource( 37 )
 anims/fade = SubResource( 38 )
 
-[node name="ProgressBar" type="ProgressBar" parent="Spots/spot6"]
-visible = false
-margin_left = -31.8812
-margin_top = 56.8475
-margin_right = 38.1188
-margin_bottom = 68.8475
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 44 )
-custom_styles/bg = SubResource( 45 )
-value = 50.0
-percent_visible = false
-
-[node name="ProgressBar2" type="ProgressBar" parent="Spots/spot6/ProgressBar"]
-show_behind_parent = true
-margin_right = 70.0
-margin_bottom = 12.0
-rect_min_size = Vector2( 70, 0 )
-custom_styles/fg = SubResource( 46 )
-custom_styles/bg = SubResource( 47 )
-value = 80.0
-percent_visible = false
-
 [node name="BallContainer" type="Node2D" parent="."]
 
 [node name="Animations" type="Node2D" parent="."]
@@ -712,8 +546,6 @@ percent_visible = false
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Animations"]
 anims/RESET = SubResource( 40 )
 anims/shake = SubResource( 39 )
-
-[node name="ProgressTween" type="Tween" parent="Animations"]
 
 [node name="SlowmoController" parent="." instance=ExtResource( 1 )]
 
@@ -726,8 +558,12 @@ position = Vector2( 360, 720 )
 current = true
 script = ExtResource( 3 )
 
+[node name="Flash" parent="GUI" instance=ExtResource( 5 )]
+
 [node name="Timers" type="Node2D" parent="."]
 
-[node name="ProgressTimer" type="Timer" parent="Timers"]
+[node name="ControlTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
 
-[connection signal="timeout" from="Timers/ProgressTimer" to="." method="_on_ProgressTimer_timeout"]
+[connection signal="timeout" from="Timers/ControlTimer" to="." method="_on_ControlTimer_timeout"]
