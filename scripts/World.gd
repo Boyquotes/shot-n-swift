@@ -55,7 +55,12 @@ func exit():
 #	queue_free()
 	pass
 
+func set_highscore():
+	if Global.score > Global.highscore:
+		Global.highscore = Global.score
+	pass
 func _on_GameoverBtn_pressed():
+	set_highscore()
 #	get_tree().reload_current_scene()
 	player_controller.gameover()
 	exit()

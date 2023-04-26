@@ -1,8 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://fonts/GilaBold-p7Rdr.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://assets/icons/full-star-alpha-border-black-border.png" type="Texture" id=2]
-[ext_resource path="res://scenes/coin/CoinLabel.gd" type="Script" id=3]
+[ext_resource path="res://fonts/GilaBold-p7Rdr.otf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -10,7 +8,7 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 1 )
+font_data = ExtResource( 3 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "New Anim"
@@ -81,24 +79,19 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[node name="CoinLabel" type="Node2D"]
-script = ExtResource( 3 )
+[node name="CoinNumberLabel" type="Node2D"]
 
 [node name="Body" type="Node2D" parent="."]
 
-[node name="Sprite" type="Sprite" parent="Body"]
-scale = Vector2( 0.12, 0.12 )
-texture = ExtResource( 2 )
-
 [node name="Label" type="Label" parent="Body"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_top = -70.0
-margin_right = 62.0
-margin_bottom = 10.0
+margin_left = 1.0
+margin_top = -16.0
+margin_right = 63.0
+margin_bottom = 64.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_y = 3

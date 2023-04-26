@@ -36,6 +36,7 @@ onready var flash_anim = $GUI/Flash/AnimationPlayer
 onready var control_timer = $Timers/ControlTimer
 onready var anim = $Animations/AnimationPlayer
 
+signal show_score_label
 
 func _ready():
 	_modulate = spots.get_child(1).get_child(0).modulate
@@ -43,13 +44,9 @@ func _ready():
 	setCenter()
 	pass
 
-func _start():
-	can_click = true
-	Global.currentPoints = 0
-#	Global.highscore = 0
-	level_system.start()
-	level_system.enter()
-#	anim.play("shake")
+func set_points():
+	level_system.set_points()
+	pass
 
 func level_up():
 	level_system.exit()
@@ -67,6 +64,15 @@ func level_up():
 	Global.emit_signal("diff_increase")
 	pass
 
+func _start():
+	can_click = true
+	Global.score = 0
+#	Global.highscore = 0
+#	anim.play("shake")
+	level_system.start()
+	level_system.enter()
+
+
 func push_back(vel):
 	var magnitude = 8
 	var offset = vel * magnitude
@@ -77,10 +83,6 @@ func push_back(vel):
 	
 	tween.start()
 	tween.interpolate_property(spots, "position", spots.position, Vector2.ZERO, 0.1,Tween.TRANS_LINEAR,Tween.EASE_OUT)
-	pass
-
-func set_points():
-	level_system.set_points()
 	pass
 
 func flash():
@@ -188,21 +190,21 @@ func ball_ricochet(amt):
 	if !ball: return
 	var move_speed = 0.1
 	var time_speed = 0.1
-	
-	ball.start_ricochet()
+	self.set_process_input(false)
 	yield(get_tree().create_timer(0.1),"timeout")
 	ball.start_ricochet()
 	for i in amt:
 		if !ball: break
 		if i == (amt -1):
-#			slowmoController.enter_slowmo()
+			slowmoController.enter_slowmo_ricochet()
 			ball.is_ricochet_playing = true
+#			time_speed = 0.01
 		ball.moveToTarget(next_target.position, move_speed)
 		nextTarget()
 		ball.set_indicator(next_target)
 		yield(get_tree().create_timer(time_speed),"timeout")
 
-	can_click = true
+#	can_click = true
 	pass
 
 func start_slowmo():
@@ -211,12 +213,13 @@ func start_slowmo():
 	if ball: ball.start_slowmo(0.1)
 
 func end_slowmo():
-	can_click = true
+#	can_click = true
 #	speed = main_speed
 	if ball: ball.end_slowmo(4)
 
 func _input(event):
 	if can_click and ball and control_click:
+		print("yes")
 		if Input.is_action_just_pressed("click"):
 			if ball.raycast_colliding:
 				slowmoController.enter_slowmo()
@@ -233,7 +236,7 @@ func _input(event):
 			control_click = false
 #			Global.emit_signal("add_energy")
 		if Input.is_action_just_pressed("special attack"):
-			ball_ricochet(4)
+			ball_ricochet(8)
 
 func set_gameover() -> void:
 	ball = null

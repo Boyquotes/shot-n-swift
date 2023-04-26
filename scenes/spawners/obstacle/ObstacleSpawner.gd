@@ -69,8 +69,8 @@ func _on_Timer_timeout() -> void:
 		spawn_timer.stop()
 		return
 	if can_spawn: 
-#		if !Global.is_levelup: instanceItem()
-#		else: instanceCoin()
+		if !Global.is_levelup: instanceItem()
+		else: instanceCoin()
 		pass
 	else:
 		if !Global.is_levelup: randCoin()

@@ -45,6 +45,9 @@ func end_ricochet():
 	monitoring = true
 	is_ricochet_playing = false
 	ricochet_mode = false
+	yield(get_tree().create_timer(0.2), 'timeout')
+	controller.can_click = true
+	controller.set_process_input(true)
 	pass
 
 func set_indicator(target):
@@ -95,16 +98,19 @@ func moveToTarget(target_pos: Vector2, speed) -> void:
 	set_indicator(next_target)
 	
 	
-	Global.highscore += 1
 	if Global.currentPoints < Global.levelPoints and !Global.is_levelup:
 		Global.currentPoints += 1
+	Global.score += 1
+	controller.emit_signal("show_score_label")
 	controller.set_points()
 	controller.play_score_anim()
-	controller.can_click = true
 	trail.emitting = false
 	
 	if is_ricochet_playing:
 		end_ricochet()
+	else:
+		controller.can_click = true
+		
 		pass
 	#>>>>>>
 	take_hit()
@@ -187,4 +193,6 @@ func _on_CoinArea_body_entered(body):
 		body.kill()
 #		body.knockback(push_vel)
 		Global.coins += 1
+#		if !is_ricochet_playing:
+#			controller.ball_ricochet(8)
 	pass # Replace with function body.

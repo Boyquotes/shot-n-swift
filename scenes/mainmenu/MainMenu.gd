@@ -5,9 +5,11 @@ onready var game_title = $GameTitle
 onready var game_title_anim = $Animations/GameTitleAnim
 var world = null
 onready var timer = $Timers/Timer
+onready var highscore_label = $GameTitle/CenterContainer/VBoxContainer2/Score/HBoxContainer/Label2
 
 func _ready():
 #	_intro()
+	highscore_label.text = str(Global.highscore)
 	game_title_anim.play("intro")
 #	game_title.rect_position.y = 0
 	pass
@@ -17,6 +19,7 @@ func get_screen():
 	pass
 
 func _intro() -> void:
+	highscore_label.text = str(Global.highscore)
 	game_title_anim.play("intro")
 	tween.start()
 	tween.interpolate_property(game_title, "rect_position:y", -get_screen().y/1.5, 0, 0.35, Tween.TRANS_CIRC, Tween.EASE_OUT)
