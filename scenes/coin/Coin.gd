@@ -4,7 +4,6 @@ var speed : int = 100
 var vel : Vector2 = Vector2(0,0)
 
 onready var sprite = $ColorRect
-onready var tween = $Tween
 onready var obstacle_spawner  = get_parent().get_parent()
 onready var collision = $CollisionShape2D
 
@@ -37,16 +36,9 @@ func kill() -> void:
 	queue_free()
 	pass
 
-func knockback(vel):
-	var knock_force = vel * 200
-	tween.start()
-	tween.interpolate_property(self, "global_position", global_position, global_position + knock_force, 0.1,Tween.TRANS_BACK, Tween.EASE_OUT)
-	pass
-
 func _physics_process(delta) -> void:
 	var move_and_collide = move_and_collide(vel * delta)
 
 func _on_VisibilityNotifier2D_screen_exited() -> void:
-	if !dead: 
-		queue_free()
+	if !dead: queue_free()
 	pass

@@ -2,6 +2,7 @@ extends Node2D
 
 onready var obstacle_scene = load("res://scenes/obstacle/obstacle.tscn")
 onready var coin_scene = load("res://scenes/coin/Coin.tscn")
+onready var powerup_scene = load("res://scenes/powerup/PowerUp.tscn")
 onready var obstacles = $obstacles
 onready var coins = $coins
 onready var spawn_timer = $Timer
@@ -59,6 +60,12 @@ func instanceCoin() -> void:
 	coins.add_child(item)
 	pass
 
+func instancePowerUp() -> void:
+	var item = powerup_scene.instance()
+	setParams(item)
+	coins.add_child(item)
+	pass
+
 func randCoin() -> void:
 	randomize()
 	var rand_num = randi()% (coin_scarce + 1)
@@ -73,7 +80,7 @@ func _on_Timer_timeout() -> void:
 		else: instanceCoin()
 		pass
 	else:
-		if !Global.is_levelup: randCoin()
+		if !Global.is_levelup: instancePowerUp() #randCoin()
 		else: instanceCoin()
 	can_spawn = !can_spawn
 	pass # Replace with function body.

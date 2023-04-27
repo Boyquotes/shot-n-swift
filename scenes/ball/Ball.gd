@@ -22,15 +22,8 @@ var move_angle = 0
 var raycast_colliding = false
 var is_ricochet_playing = false
 var ricochet_mode = false
+
 func _ready():
-	take_hit()
-	pass
-
-func take_hit():
-	pass
-
-
-func stop_hit():
 	pass
 
 func start_ricochet():
@@ -64,6 +57,7 @@ func set_indicator(target):
 
 
 func start_slowmo(speed):
+	ricochet_mode = true
 	tween.playback_speed = 0
 	tween_tween.start()
 	tween_tween.interpolate_property(tween, "playback_speed", tween.playback_speed, speed, 0.01, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
@@ -77,14 +71,11 @@ func end_slowmo(speed):
 	tween_tween.interpolate_property(tween, "playback_speed", tween.playback_speed, speed, 0.08, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	yield(tween_tween, "tween_completed")
 	tween.playback_speed = 1
-	controller.shake_camera(0.3)
+	controller.shake_camera(0.22)
+	ricochet_mode = false
 	pass
 
 func moveToTarget(target_pos: Vector2, speed) -> void:
-	#>>>>>>
-	stop_hit()
-	
-	#<<<<<<
 	if !ricochet_mode: 
 		anim.play("shrink")
 		trail.emitting = true
@@ -99,11 +90,11 @@ func moveToTarget(target_pos: Vector2, speed) -> void:
 	
 	
 	if Global.currentPoints < Global.levelPoints and !Global.is_levelup:
-		Global.currentPoints += 1
+		Global.currentPoints += controller.player_damage
 	Global.score += 1
-	controller.emit_signal("show_score_label")
 	controller.set_points()
 	controller.play_score_anim()
+	controller.show_damage()
 	trail.emitting = false
 	
 	if is_ricochet_playing:
@@ -112,9 +103,6 @@ func moveToTarget(target_pos: Vector2, speed) -> void:
 		controller.can_click = true
 		
 		pass
-	#>>>>>>
-	take_hit()
-	# <<<<<
 	pass
 
 func gameover() -> void:
@@ -173,6 +161,14 @@ func spawn_balls():
 		get_parent().call_deferred("add_child", item)
 	pass
 
+# >>>>>>> PowerUps Implementation
+func powerup_ricochet(amt):
+	controller.ball_ricochet(amt)
+	pass
+
+
+
+# <<<<<<<
 
 func _on_Tween_tween_completed(object, key):
 	pass # Replace with function body.
@@ -195,4 +191,6 @@ func _on_CoinArea_body_entered(body):
 		Global.coins += 1
 #		if !is_ricochet_playing:
 #			controller.ball_ricochet(8)
+	if body.get_groups().has("powerup"):
+		body.set_powerup(self)
 	pass # Replace with function body.

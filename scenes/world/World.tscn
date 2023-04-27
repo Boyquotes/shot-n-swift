@@ -501,9 +501,8 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -89.0
 margin_top = -60.0
-margin_right = 267.0
+margin_right = 356.0
 margin_bottom = -60.0
 script = ExtResource( 9 )
 
@@ -527,10 +526,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -150.0
-margin_top = -15.0
-margin_right = 250.0
-margin_bottom = 15.0
+margin_left = -50.0
+margin_right = 350.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 100, 0 )
 texture = ExtResource( 8 )
 expand = true
@@ -621,9 +619,8 @@ anims/exit = SubResource( 18 )
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -89.0
 margin_top = 60.0
-margin_right = 267.0
+margin_right = 356.0
 margin_bottom = 60.0
 
 [node name="Shower" type="Control" parent="PlayerController/Score/LevelUpAnim"]
@@ -750,6 +747,7 @@ anchor_right = 1.0
 margin_bottom = 160.0
 mouse_filter = 2
 custom_constants/margin_right = 40
+custom_constants/margin_top = 20
 custom_constants/margin_left = 40
 __meta__ = {
 "_edit_lock_": true
@@ -757,6 +755,7 @@ __meta__ = {
 
 [node name="Coin" type="HBoxContainer" parent="GUI/Stats"]
 margin_left = 40.0
+margin_top = 20.0
 margin_right = 680.0
 margin_bottom = 160.0
 mouse_filter = 2
@@ -766,20 +765,20 @@ __meta__ = {
 
 [node name="VBoxContainer" type="HBoxContainer" parent="GUI/Stats/Coin"]
 margin_right = 640.0
-margin_bottom = 160.0
+margin_bottom = 140.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 40
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/Stats/Coin/VBoxContainer"]
 margin_right = 84.0
-margin_bottom = 160.0
+margin_bottom = 140.0
 custom_constants/separation = 10
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer"]
-margin_top = 42.0
+margin_top = 32.0
 margin_right = 45.0
-margin_bottom = 117.0
+margin_bottom = 107.0
 rect_min_size = Vector2( 45, 75 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -792,9 +791,9 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer"]
 margin_left = 55.0
-margin_top = 47.0
+margin_top = 37.0
 margin_right = 84.0
-margin_bottom = 113.0
+margin_bottom = 103.0
 rect_pivot_offset = Vector2( 12, 25 )
 size_flags_horizontal = 0
 custom_fonts/font = SubResource( 14 )
@@ -806,21 +805,21 @@ script = ExtResource( 11 )
 [node name="SpaceBetween" type="Control" parent="GUI/Stats/Coin/VBoxContainer"]
 margin_left = 124.0
 margin_right = 516.0
-margin_bottom = 160.0
+margin_bottom = 140.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="GUI/Stats/Coin/VBoxContainer"]
 margin_left = 556.0
 margin_right = 640.0
-margin_bottom = 160.0
+margin_bottom = 140.0
 rect_min_size = Vector2( 0, 75 )
 custom_constants/separation = 10
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer2"]
-margin_top = 50.0
+margin_top = 40.0
 margin_right = 45.0
-margin_bottom = 110.0
+margin_bottom = 100.0
 rect_min_size = Vector2( 45, 60 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -830,9 +829,9 @@ stretch_mode = 6
 
 [node name="Label" type="Label" parent="GUI/Stats/Coin/VBoxContainer/HBoxContainer2"]
 margin_left = 55.0
-margin_top = 47.0
+margin_top = 37.0
 margin_right = 84.0
-margin_bottom = 113.0
+margin_bottom = 103.0
 rect_pivot_offset = Vector2( 12, 25 )
 size_flags_horizontal = 0
 custom_fonts/font = SubResource( 1 )

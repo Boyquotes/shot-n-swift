@@ -16,7 +16,6 @@ func _ready():
 
 
 func start():
-	print(progress.value, ":", progress.max_value)
 	level1.text = str(Global.level)
 	level2.text = str(Global.level + 1)
 	progress.value = 0

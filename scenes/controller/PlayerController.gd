@@ -7,6 +7,7 @@ onready var tween = $Animations/Tween
 onready var slowmoController = $SlowmoController
 onready var camera = $GUI/Camera2D
 
+onready var score_label = preload("res://scenes/coin/CoinNumberLabel.tscn")
 onready var splash_particle_scene = preload("res://scenes/particles/Rect_particle.tscn")
 onready var particles = $Particles
 
@@ -17,6 +18,7 @@ onready var levelup_anim_timer = $Score/LevelUpAnim/Timer
 
 var ball = null
 var next_target = null
+var prev_target = null
 var ball_destination = null
 
 const main_speed: float = 0.142
@@ -36,7 +38,7 @@ onready var flash_anim = $GUI/Flash/AnimationPlayer
 onready var control_timer = $Timers/ControlTimer
 onready var anim = $Animations/AnimationPlayer
 
-signal show_score_label
+var player_damage = 0
 
 func _ready():
 	_modulate = spots.get_child(1).get_child(0).modulate
@@ -155,7 +157,6 @@ func nextTarget() -> void:
 	next_target.get_child(0).modulate = _modulate
 	stop_blink(next_target)
 #	play_fade(next_target)
-	
 	next_target = pos
 	if ball:
 		ball.set_indicator(next_target)
@@ -163,6 +164,7 @@ func nextTarget() -> void:
 	play_blink(child)
 
 func moveBall(move_speed) -> void:
+	prev_target = next_target
 	ball.moveToTarget(next_target.position, move_speed)
 	nextTarget()
 	pass
@@ -199,6 +201,7 @@ func ball_ricochet(amt):
 			slowmoController.enter_slowmo_ricochet()
 			ball.is_ricochet_playing = true
 #			time_speed = 0.01
+		prev_target = next_target
 		ball.moveToTarget(next_target.position, move_speed)
 		nextTarget()
 		ball.set_indicator(next_target)
@@ -206,6 +209,28 @@ func ball_ricochet(amt):
 
 #	can_click = true
 	pass
+
+func show_damage():
+	if prev_target.global_position.x > get_viewport_rect().size.x/2:
+		show_score_label(prev_target.position, Vector2(60, 0))
+	else:
+		show_score_label(prev_target.position, Vector2(-60, 0))
+	pass
+
+func show_score_label(pos, offset):
+	var item = score_label.instance()
+	item.global_position = pos + offset
+	item.get_node("Body/Label").text = str(exp_damage())
+	particles.add_child(item)
+	pass
+
+func exp_damage():
+	randomize()
+	var damage = int(rand_range(1, 2))
+	player_damage = damage
+	return damage
+	pass
+
 
 func start_slowmo():
 	can_click = false
@@ -219,7 +244,6 @@ func end_slowmo():
 
 func _input(event):
 	if can_click and ball and control_click:
-		print("yes")
 		if Input.is_action_just_pressed("click"):
 			if ball.raycast_colliding:
 				slowmoController.enter_slowmo()
