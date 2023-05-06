@@ -17,7 +17,7 @@ func _next():
 	world.main_scene = menu
 	get_parent().add_child(menu)
 	get_parent().add_child(world)
-	queue_free()
+	call_deferred("queue_free")
 	pass
 
 

@@ -48,7 +48,7 @@ func setParams(item) -> void:
 	item.position = spawn_pos
 	pass
 
-func instanceItem() -> void:
+func instanceEnemy() -> void:
 	var item = obstacle_scene.instance()
 	setParams(item)
 	obstacles.add_child(item)
@@ -76,11 +76,21 @@ func _on_Timer_timeout() -> void:
 		spawn_timer.stop()
 		return
 	if can_spawn: 
-		if !Global.is_levelup: instanceItem()
+		if !Global.is_levelup: 
+			var rand = randi()&2
+			if rand == 0: instanceEnemy()
+			else: instanceCoin()
 		else: instanceCoin()
 		pass
 	else:
-		if !Global.is_levelup: instancePowerUp() #randCoin()
+		if !Global.is_levelup:
+			if Global.can_spawn_powerup:
+				randomize()
+				var rand = randi()&2
+				if rand == 0: instancePowerUp()
+				else: instanceCoin() #randCoin()
+#				Global.can_spawn_powerup = false
+			else: instanceCoin() #randCoin()
 		else: instanceCoin()
 	can_spawn = !can_spawn
 	pass # Replace with function body.

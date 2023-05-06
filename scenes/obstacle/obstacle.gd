@@ -8,8 +8,18 @@ onready var obstacles = get_parent().get_parent().obstacles
 onready var rotating_body = $CollisionShape2D
 
 var rotating = false
+
 func _ready():
 	rotating_body.rotation_degrees = rand_range(0, 360)
+	set_difficulty()
+	pass
+
+func set_difficulty():
+	if Global.level >= 2:
+		randomize()
+		var rand = randi()%2
+		if rand == 0:
+			rotating = true
 	pass
 
 func setParams(_speed: int) -> void:
@@ -22,5 +32,5 @@ func _process(delta) -> void:
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited() -> void:
-	queue_free()
+	call_deferred("queue_free")
 	pass

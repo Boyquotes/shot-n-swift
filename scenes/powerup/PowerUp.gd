@@ -55,12 +55,12 @@ func setParams(_speed: int) -> void:
 
 func kill() -> void:
 	print("powerup deleted")
-	queue_free()
+	call_deferred("queue_free")
 	pass
 
 func _physics_process(delta) -> void:
 	var move_and_collide = move_and_collide(vel * delta)
 
 func _on_VisibilityNotifier2D_screen_exited() -> void:
-	if !dead: queue_free()
+	if !dead: call_deferred("queue_free")
 	pass

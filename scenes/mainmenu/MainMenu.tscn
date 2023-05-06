@@ -336,6 +336,7 @@ modulate = Color( 1, 1, 1, 0 )
 margin_right = 410.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
+mouse_default_cursor_shape = 2
 custom_styles/panel = SubResource( 11 )
 
 [node name="startButton" type="TextureButton" parent="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/Button"]

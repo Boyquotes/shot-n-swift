@@ -9,6 +9,7 @@ onready var rotate_tween = $RotationTween
 onready var tween_tween = $TweenTween
 onready var endslowmo_timer = $endSlowmoTimer
 onready var raycastarea = $body/RayCastArea
+onready var indicator_anim = $IndicatorAnim
 onready var splashball_scene = preload("res://scenes/splashball/SplashBall.tscn")
 
 
@@ -75,13 +76,14 @@ func end_slowmo(speed):
 	ricochet_mode = false
 	pass
 
-func moveToTarget(target_pos: Vector2, speed) -> void:
+func moveToTarget(target_pos: Vector2, target_rot, speed) -> void:
+	indicator_anim.play("fade-in")
 	if !ricochet_mode: 
 		anim.play("shrink")
 		trail.emitting = true
 		$Line2D.hide()
 	tween.start()
-	tween.interpolate_property(self, "position", position, target_pos, speed, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tween.interpolate_property(self, "position", position, target_pos.rotated(target_rot), speed, Tween.TRANS_LINEAR, Tween.EASE_IN)
 
 	yield(tween, "tween_completed")
 	controller.push_back(push_vel)
@@ -96,12 +98,11 @@ func moveToTarget(target_pos: Vector2, speed) -> void:
 	controller.play_score_anim()
 	controller.show_damage()
 	trail.emitting = false
-	
+	indicator_anim.play_backwards("fade-in")
 	if is_ricochet_playing:
 		end_ricochet()
 	else:
 		controller.can_click = true
-		
 		pass
 	pass
 
@@ -110,7 +111,7 @@ func gameover() -> void:
 	pass
 
 func die():
-	queue_free()
+	call_deferred("queue_free")
 	spawn_balls()
 	controller.flash()
 	Global.gameover = true
@@ -193,4 +194,5 @@ func _on_CoinArea_body_entered(body):
 #			controller.ball_ricochet(8)
 	if body.get_groups().has("powerup"):
 		body.set_powerup(self)
+		controller.show_powerup_notif(body.powerup)
 	pass # Replace with function body.

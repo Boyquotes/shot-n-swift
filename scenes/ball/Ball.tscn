@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scenes/ball/Ball.gd" type="Script" id=1]
 [ext_resource path="res://assets/circle.png" type="Texture" id=2]
@@ -95,6 +95,37 @@ step = 0.05
 [sub_resource type="CircleShape2D" id=17]
 radius = 30.0167
 
+[sub_resource type="Animation" id=18]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/indicator:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "fade-in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/indicator:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="Ball" type="Area2D"]
 collision_layer = 3
 collision_mask = 3
@@ -190,6 +221,10 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CoinArea"]
 shape = SubResource( 17 )
+
+[node name="IndicatorAnim" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 18 )
+anims/fade-in = SubResource( 19 )
 
 [connection signal="body_entered" from="." to="." method="_on_Ball_body_entered"]
 [connection signal="area_entered" from="body/RayCastArea" to="." method="_on_RayCastArea_area_entered"]

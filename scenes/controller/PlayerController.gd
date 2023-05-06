@@ -14,7 +14,8 @@ onready var particles = $Particles
 onready var level_system = $Score/LevelSystem
 onready var levelup_anim = $Score/LevelUpAnim
 onready var levelup_anim_timer = $Score/LevelUpAnim/Timer
-#onready var energy_bill = $"../GUI/Stats/EnergyBill"
+onready var powerup_notif_anim = $PowerupNotif/AnimationPlayer
+onready var powerup_notif_label = $PowerupNotif/Body/TextureRect/Label
 
 var ball = null
 var next_target = null
@@ -27,7 +28,6 @@ onready var speed = main_speed
 
 var ricochet_speed = 0.1
 var next_target_time = 0.1
-
 
 var can_click = false
 var control_click = true
@@ -63,7 +63,13 @@ func level_up():
 #	levelup_anim.get_node("Shower/AnimationPlayer").stop()
 	level_system.enter()
 	Global.is_levelup = false
+	Global.can_spawn_powerup = true
 	Global.emit_signal("diff_increase")
+	pass
+
+func show_powerup_notif(text):
+	powerup_notif_label.text = text
+	powerup_notif_anim.play("New Anim")
 	pass
 
 func _start():
@@ -90,6 +96,7 @@ func push_back(vel):
 func flash():
 	flash_anim.play("flash")
 	pass
+
 func gameover():
 	level_system.exit()
 	if next_target:
@@ -132,7 +139,8 @@ func setParams(item) -> void:
 	var child = children[randi()%spots.get_child_count()]
 	next_target = child
 	ball_destination = child.position
-	item.position = child.position
+	item.position = child.position.rotated(child.global_rotation)
+	print(child.global_rotation, "child position")
 	pass
 
 func nextTarget() -> void:
@@ -165,7 +173,7 @@ func nextTarget() -> void:
 
 func moveBall(move_speed) -> void:
 	prev_target = next_target
-	ball.moveToTarget(next_target.position, move_speed)
+	ball.moveToTarget(next_target.position, next_target.global_rotation, move_speed)
 	nextTarget()
 	pass
 
@@ -202,7 +210,7 @@ func ball_ricochet(amt):
 			ball.is_ricochet_playing = true
 #			time_speed = 0.01
 		prev_target = next_target
-		ball.moveToTarget(next_target.position, move_speed)
+		ball.moveToTarget(next_target.position, next_target.global_rotation, move_speed)
 		nextTarget()
 		ball.set_indicator(next_target)
 		yield(get_tree().create_timer(time_speed),"timeout")
