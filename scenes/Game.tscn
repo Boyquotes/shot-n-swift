@@ -5,9 +5,7 @@
 
 [node name="Game" type="Node"]
 
-[node name="ParallaxBackground" parent="." instance=ExtResource( 2 )]
-pause_mode = 2
-scrolling_speed = 160.0
+[node name="ParallaxBackground" parent="." groups=["parrallax"] instance=ExtResource( 2 )]
 
 [node name="Content" type="Control" parent="."]
 anchor_right = 1.0

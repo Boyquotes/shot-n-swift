@@ -35,7 +35,7 @@ func exit():
 func set_points():
 	if completed:
 		Global.level += 1
-		Global.levelPoints += 5
+		Global.levelPoints += (Global.levelPoints * 0.5)
 #		progress.value = 0
 		Global.currentPoints = 0
 		start()
@@ -44,7 +44,7 @@ func set_points():
 		completed = false
 		
 		controller.level_up()
-		
+		get_tree().get_nodes_in_group("parrallax")[0].set_difficulty()
 		return
 	
 	var value = Global.currentPoints

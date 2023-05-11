@@ -806,7 +806,7 @@ margin_top = 85.0
 margin_right = 706.0
 margin_bottom = 115.0
 custom_fonts/font = SubResource( 23 )
-text = "DIFF +1 PERKS +1"
+text = "NEXT LEVEL$"
 align = 1
 valign = 1
 
@@ -1037,6 +1037,12 @@ margin_bottom = 40.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Control/Right/StaticBody2D"]
 position = Vector2( 11.5, 635.5 )
 shape = SubResource( 3 )
+
+[node name="Bottom" type="Control" parent="Collision/Control"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
 
 [node name="Animations" type="Node2D" parent="."]
 

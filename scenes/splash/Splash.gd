@@ -8,7 +8,7 @@ onready var anim = $AnimationPlayer
 func _ready():
 	anim.play("fade_in")
 	$Tween.start()
-	$Tween.interpolate_property($body/TextureRect,"rect_scale",Vector2(0.5,0.5),Vector2(1,1),0.8,Tween.TRANS_BOUNCE,Tween.EASE_IN)
+	$Tween.interpolate_property($body/TextureRect,"rect_scale",Vector2(0.5,0.5),Vector2(1,1),0.3,Tween.TRANS_LINEAR,Tween.EASE_IN)
 #INSTANCE NEXT SCENE 
 func _next():
 	var menu = main_scene.instance()

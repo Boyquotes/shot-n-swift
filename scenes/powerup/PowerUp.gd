@@ -12,7 +12,7 @@ var dead = false
 
 var type = [
 	"More Coins",
-	"More Score",
+	"Exp Increase",
 	"Ricochet"
 	]
 
@@ -29,10 +29,10 @@ func start():
 	match powerup:
 		"More Coins":
 			label.text = "C"
-		"More Score":
-			label.text = "S"
+		"Exp Increase":
+			label.text = "E"
 		"Ricochet":
-			ricochet_amt = int(rand_range(2,10))
+			ricochet_amt = clamp(int(Global.level + 1), 2, 8)
 			label.text = str(ricochet_amt) + "R"
 	pass
 
@@ -40,9 +40,12 @@ func set_powerup(ball):
 	randomize()
 	match powerup:
 		"More Coins":
-			print("More Coin activated")
-		"More Score":
-			print("More Score activated")
+			var rand = randi()%8
+			if rand == 0: Global.pow_coin += 1
+		"Exp Increase":
+			var rand = int(rand_range(1,3))
+			print(rand, "exp increase")
+			Global.pow_exp += rand
 		"Ricochet":
 			ball.powerup_ricochet(ricochet_amt)
 	

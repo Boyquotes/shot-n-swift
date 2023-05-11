@@ -8,6 +8,7 @@ onready var slowmoController = $SlowmoController
 onready var camera = $GUI/Camera2D
 
 onready var score_label = preload("res://scenes/coin/CoinNumberLabel.tscn")
+onready var pow_node_scene = preload("res://scenes/pow/PowNode.tscn")
 onready var splash_particle_scene = preload("res://scenes/particles/Rect_particle.tscn")
 onready var particles = $Particles
 
@@ -48,6 +49,14 @@ func _ready():
 
 func set_points():
 	level_system.set_points()
+	pass
+
+func format_number(value):
+	var result = value
+	if value >= 1000: result = str(stepify(value /1000.0, 0.1)) + "K"
+	if value >= 1000000: result = str(stepify(value /1000000.0, 0.1)) + "M"
+	if value >= 1000000000: result = str(stepify(value /1000000000.0, 0.1)) + "G"
+	return result
 	pass
 
 func level_up():
@@ -228,13 +237,23 @@ func show_damage():
 func show_score_label(pos, offset):
 	var item = score_label.instance()
 	item.global_position = pos + offset
-	item.get_node("Body/Label").text = str(exp_damage())
+	item.get_node("Body/Label").text = str(format_number(exp_damage()))
+	particles.add_child(item)
+	pass
+
+func show_pow_effect():
+	show_pow(prev_target.position,Vector2(0,0))
+	pass
+
+func show_pow(pos, offset):
+	var item = pow_node_scene.instance()
+	item.global_position = pos + offset
 	particles.add_child(item)
 	pass
 
 func exp_damage():
 	randomize()
-	var damage = int(rand_range(1, 2))
+	var damage = int(rand_range(1, Global.pow_exp + 1))
 	player_damage = damage
 	return damage
 	pass
@@ -258,17 +277,19 @@ func _input(event):
 			moveBall(speed)
 			can_click = false
 #			Global.energy += 10
+			print("click")
 			
 		if event is InputEventMouseButton and event.is_pressed():
 			if ball.raycast_colliding:
 				slowmoController.enter_slowmo()
+			print("mouse")
 			moveBall(speed)
 			can_click = false
-			control_timer.start()
-			control_click = false
+#			control_timer.start()
+#			control_click = false
 #			Global.emit_signal("add_energy")
 		if Input.is_action_just_pressed("special attack"):
-			ball_ricochet(8)
+			ball_ricochet(3)
 
 func set_gameover() -> void:
 	ball = null

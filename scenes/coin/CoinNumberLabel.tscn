@@ -102,6 +102,7 @@ valign = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "New Anim"
+playback_speed = 0.5
 "anims/New Anim" = SubResource( 2 )
 anims/RESET = SubResource( 3 )
 

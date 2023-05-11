@@ -39,6 +39,7 @@ func end_ricochet():
 	monitoring = true
 	is_ricochet_playing = false
 	ricochet_mode = false
+	controller.show_pow_effect()
 	yield(get_tree().create_timer(0.2), 'timeout')
 	controller.can_click = true
 	controller.set_process_input(true)
@@ -58,6 +59,7 @@ func set_indicator(target):
 
 
 func start_slowmo(speed):
+	$Line2D.show()
 	ricochet_mode = true
 	tween.playback_speed = 0
 	tween_tween.start()
@@ -74,6 +76,7 @@ func end_slowmo(speed):
 	tween.playback_speed = 1
 	controller.shake_camera(0.22)
 	ricochet_mode = false
+	$Line2D.hide()
 	pass
 
 func moveToTarget(target_pos: Vector2, target_rot, speed) -> void:
@@ -111,6 +114,7 @@ func gameover() -> void:
 	pass
 
 func die():
+	controller.slowmoController.enter_slowmo_ricochet()
 	call_deferred("queue_free")
 	spawn_balls()
 	controller.flash()
@@ -121,6 +125,8 @@ func _on_Ball_body_entered(body):
 	if body.get_groups().has("obstacle"):
 		gameover()
 		die()
+		Input.vibrate_handheld(300)
+		controller.shake_camera(0.1)
 	pass # Replace with function body.
 
 func spawn_balls():
@@ -189,7 +195,7 @@ func _on_CoinArea_body_entered(body):
 	if body.get_groups().has("coin"):
 		body.kill()
 #		body.knockback(push_vel)
-		Global.coins += 1
+		Global.coins += Global.pow_coin
 #		if !is_ricochet_playing:
 #			controller.ball_ricochet(8)
 	if body.get_groups().has("powerup"):
