@@ -34,7 +34,6 @@ func start():
 	rotating_body.rotation_degrees = rand_range(0, 360)
 	set_difficulty()
 	match_difficulty()
-	print(difficulty, "difficulty")
 	pass
 	
 func set_difficulty():
@@ -43,26 +42,26 @@ func set_difficulty():
 		var rand = randi()%2
 		if rand == 0: difficulty = difficulties.ROTATE
 	if Global.level >= 8:
-		var rand = randi()%2
+		var rand = randi()%4
 		if rand == 0: difficulty = difficulties.MOVE_X
 	if Global.level >= 12:
-		var rand = randi()%2
+		var rand = randi()%4
 		if rand == 0: difficulty = difficulties.MOVE_Y
 	if Global.level >= 16:
-		var rand = randi()%2
+		var rand = randi()%4
 		if rand == 0: difficulty = difficulties.MOVE_X
 		if rand == 1: difficulty = difficulties.MOVE_Y
 	if Global.level >= 30:
 		var rand = randi()%4
 		if rand == 0: difficulty = difficulties.SWAP
-		else: 
-			var rand2 = randi()%6
+		if rand == 1: 
+			var rand2 = randi()%8
 			if rand2 == 0: difficulty = difficulties.MOVE_X
 			if rand2 == 1: difficulty = difficulties.MOVE_Y
 	if Global.level >= 40:
-		var rand = randi()%3
+		var rand = randi()%10
 		if rand == 0: difficulty = difficulties.SWAP
-		else: 
+		if rand == 1: 
 			var rand2 = randi()%2
 			if rand2 == 0: difficulty = difficulties.MOVE_X
 			if rand2 == 1: difficulty = difficulties.MOVE_Y

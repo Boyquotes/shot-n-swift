@@ -57,6 +57,14 @@ texture={
 "stream": false,
 "svg/scale": 1.0
 }
+ogg_vorbis={
+"loop": false,
+"loop_offset": 0
+}
+mp3={
+"loop": false,
+"loop_offset": 0
+}
 
 [input]
 
@@ -90,4 +98,4 @@ quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_clear_color=Color( 0.0705882, 0.0941176, 0.145098, 1 )
+environment/default_clear_color=Color( 0.0784314, 0.0705882, 0.145098, 1 )

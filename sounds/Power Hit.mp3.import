@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Power Hit.mp3-d7a4e517e8728d1cc901688a59313802.mp3str"
+
+[deps]
+
+source_file="res://sounds/Power Hit.mp3"
+dest_files=[ "res://.import/Power Hit.mp3-d7a4e517e8728d1cc901688a59313802.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

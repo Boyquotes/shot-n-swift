@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/icons8-play-96.png" type="Texture" id=3]
 [ext_resource path="res://assets/icons/power.png" type="Texture" id=4]
 [ext_resource path="res://assets/icons/trophy.png" type="Texture" id=5]
-[ext_resource path="res://assets/icons/gear.png" type="Texture" id=6]
+[ext_resource path="res://assets/icons/audioOn.png" type="Texture" id=6]
 [ext_resource path="res://assets/icons/shoppingCart.png" type="Texture" id=7]
 [ext_resource path="res://assets/icons/icons8-star-filled-64.png" type="Texture" id=8]
 

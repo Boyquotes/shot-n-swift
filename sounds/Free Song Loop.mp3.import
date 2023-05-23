@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Free Song Loop.mp3-b8573ea3febb1cb61589a640ee3ec524.mp3str"
+
+[deps]
+
+source_file="res://sounds/Free Song Loop.mp3"
+dest_files=[ "res://.import/Free Song Loop.mp3-b8573ea3febb1cb61589a640ee3ec524.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

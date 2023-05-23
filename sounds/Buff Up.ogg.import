@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Buff Up.ogg-3be231dd2cec0075b417c0d67222e271.oggstr"
+
+[deps]
+
+source_file="res://sounds/Buff Up.ogg"
+dest_files=[ "res://.import/Buff Up.ogg-3be231dd2cec0075b417c0d67222e271.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

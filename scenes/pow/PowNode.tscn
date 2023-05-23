@@ -60,7 +60,7 @@ __meta__ = {
 [node name="Body" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="Body"]
-scale = Vector2( 2.5, 2.5 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 
 [node name="Tween" type="Tween" parent="."]

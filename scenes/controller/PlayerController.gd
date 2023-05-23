@@ -41,6 +41,17 @@ onready var anim = $Animations/AnimationPlayer
 
 var player_damage = 0
 
+onready var progress_timer = $Timers/ProgressTimer
+onready var progress_tween = $Animations/ProgressTween
+var progress_bar = null
+
+var hit_value = 25
+
+#sounds
+onready var movesound = $Sounds/MoveSound
+onready var powerupsound = $Sounds/PowerUpSound
+onready var deathsound = $Sounds/DeathSound
+
 func _ready():
 	_modulate = spots.get_child(1).get_child(0).modulate
 	randomize()
@@ -66,8 +77,9 @@ func level_up():
 #	levelup_anim.get_node("Shower/AnimationPlayer").play("New Anim")
 	Global.is_levelup = true
 	
+	if Global.level % 10 == 0: get_tree().get_nodes_in_group("Background")[0].change_background()
 	yield(levelup_anim_timer, "timeout")
-	levelup_anim_timer.wait_time += 0.5
+	levelup_anim_timer.wait_time = min(levelup_anim_timer.wait_time + 0.2, 3)
 	levelup_anim.get_node("AnimationPlayer").play_backwards("exit")
 #	levelup_anim.get_node("Shower/AnimationPlayer").stop()
 	level_system.enter()
@@ -79,6 +91,7 @@ func level_up():
 func show_powerup_notif(text):
 	powerup_notif_label.text = text
 	powerup_notif_anim.play("New Anim")
+	powerupsound.play()
 	pass
 
 func _start():
@@ -104,6 +117,7 @@ func push_back(vel):
 
 func flash():
 	flash_anim.play("flash")
+	deathsound.play()
 	pass
 
 func gameover():
@@ -116,11 +130,40 @@ func gameover():
 func play_blink(child):
 	child.get_node("dot").show()
 	child.get_node("AnimationPlayer").play("blink")
+	
+	var hit_value = 20
+	var pbar : ProgressBar =  child.get_node("ProgressBar")
+	var second_progress = pbar.get_node("ProgressBar2")
+	progress_bar = pbar
+	pbar.show()
+	second_progress.value = pbar.max_value
+	pbar.value = pbar.max_value
+	
+	set_timer_difficulty()
+	if !Global.gameover: progress_timer.start()
 	pass
 
 func stop_blink(child):
 	child.get_node("dot").hide()
 	child.get_node("AnimationPlayer").stop()
+	
+	var pbar =  child.get_node("ProgressBar")
+	pbar.hide()
+	progress_timer.stop()
+	pass
+
+func set_timer_difficulty():
+	randomize()
+	if Global.level >= 4: 
+		progress_timer.wait_time = 1
+	if Global.level >= 8: 
+		progress_timer.wait_time = 0.9
+	if Global.level >= 12: 
+		progress_timer.wait_time = 0.8
+	if Global.level >= 16: 
+		progress_timer.wait_time = 0.7
+	if Global.level >= 30: 
+		progress_timer.wait_time = 0.5
 	pass
 
 func play_fade(child):
@@ -149,7 +192,6 @@ func setParams(item) -> void:
 	next_target = child
 	ball_destination = child.position
 	item.position = child.position.rotated(child.global_rotation)
-	print(child.global_rotation, "child position")
 	pass
 
 func nextTarget() -> void:
@@ -272,17 +314,16 @@ func end_slowmo():
 func _input(event):
 	if can_click and ball and control_click:
 		if Input.is_action_just_pressed("click"):
-			if ball.raycast_colliding:
-				slowmoController.enter_slowmo()
+#			if ball.raycast_colliding:
+#				slowmoController.enter_slowmo()
 			moveBall(speed)
 			can_click = false
 #			Global.energy += 10
-			print("click")
 			
 		if event is InputEventMouseButton and event.is_pressed():
-			if ball.raycast_colliding:
-				slowmoController.enter_slowmo()
-			print("mouse")
+			$Sounds/MoveSound.play()
+#			if ball.raycast_colliding:
+#				slowmoController.enter_slowmo()
 			moveBall(speed)
 			can_click = false
 #			control_timer.start()
@@ -298,4 +339,20 @@ func set_gameover() -> void:
 
 func _on_ControlTimer_timeout():
 	control_click = true
+	pass # Replace with function body.
+
+
+func _on_ProgressTimer_timeout():
+	var value = 0
+	if progress_bar: 
+		var second_progress = progress_bar.get_node("ProgressBar2")
+		value = progress_bar.value - hit_value
+		progress_tween.start()
+		progress_tween.interpolate_property(progress_bar, "value", progress_bar.value, progress_bar.value - hit_value, 0.3, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+		progress_tween.interpolate_property(second_progress, "value", second_progress.value, second_progress.value - hit_value, 0.3, Tween.TRANS_BOUNCE, Tween.EASE_IN)
+
+	if value <= 0: 
+		ball.die()
+		set_gameover()
+		progress_timer.stop()
 	pass # Replace with function body.

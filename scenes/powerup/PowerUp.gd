@@ -32,7 +32,7 @@ func start():
 		"Exp Increase":
 			label.text = "E"
 		"Ricochet":
-			ricochet_amt = clamp(int(Global.level + 1), 2, 8)
+			ricochet_amt = clamp(int(Global.level/2), 2, 8)
 			label.text = str(ricochet_amt) + "R"
 	pass
 
@@ -44,7 +44,6 @@ func set_powerup(ball):
 			if rand == 0: Global.pow_coin += 1
 		"Exp Increase":
 			var rand = int(rand_range(1,3))
-			print(rand, "exp increase")
 			Global.pow_exp += rand
 		"Ricochet":
 			ball.powerup_ricochet(ricochet_amt)
@@ -57,7 +56,6 @@ func setParams(_speed: int) -> void:
 	vel.y = -speed
 
 func kill() -> void:
-	print("powerup deleted")
 	call_deferred("queue_free")
 	pass
 

@@ -5,9 +5,9 @@ var highscore = 0
 var coins = 0
 var gameover = false
 
-var level = 0
+var level = 1
 var currentPoints = 0
-var levelPoints = 20
+var levelPoints = 1
 
 var is_levelup = false
 var can_spawn_powerup = true
