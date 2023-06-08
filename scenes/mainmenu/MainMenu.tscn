@@ -4,7 +4,6 @@
 [ext_resource path="res://scenes/mainmenu/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://assets/icons8-play-96.png" type="Texture" id=3]
 [ext_resource path="res://assets/icons/power.png" type="Texture" id=4]
-[ext_resource path="res://assets/icons/trophy.png" type="Texture" id=5]
 [ext_resource path="res://assets/icons/audioOn.png" type="Texture" id=6]
 [ext_resource path="res://assets/icons/shoppingCart.png" type="Texture" id=7]
 [ext_resource path="res://assets/icons/icons8-star-filled-64.png" type="Texture" id=8]
@@ -63,6 +62,10 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StreamTexture" id=14]
+flags = 5
+load_path = "res://.import/icons8-twitter-500.png-32ce59e1579a08adfb27f58649ffc089.stex"
 
 [sub_resource type="Animation" id=4]
 length = 0.001
@@ -350,6 +353,7 @@ margin_top = -50.0
 margin_right = 227.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 20, 100 )
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 3 )
 expand = true
 stretch_mode = 5
@@ -365,6 +369,7 @@ alignment = 1
 margin_right = 110.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 110, 90 )
+mouse_default_cursor_shape = 2
 custom_styles/panel = SubResource( 13 )
 
 [node name="TextureRect" type="TextureRect" parent="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Panel"]
@@ -387,6 +392,7 @@ margin_left = 150.0
 margin_right = 260.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 110, 90 )
+mouse_default_cursor_shape = 2
 custom_styles/panel = SubResource( 13 )
 
 [node name="TextureRect" type="TextureRect" parent="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
@@ -395,12 +401,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -40.0
-margin_top = -40.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 80, 80 )
-texture = ExtResource( 5 )
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 64 )
+texture = SubResource( 14 )
 expand = true
 stretch_mode = 6
 
@@ -410,6 +416,7 @@ margin_left = 240.0
 margin_right = 330.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 90, 90 )
+mouse_default_cursor_shape = 2
 custom_styles/panel = SubResource( 13 )
 
 [node name="TextureRect" type="TextureRect" parent="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Panel3"]
@@ -432,6 +439,7 @@ margin_left = 300.0
 margin_right = 410.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 110, 90 )
+mouse_default_cursor_shape = 2
 custom_styles/panel = SubResource( 13 )
 
 [node name="TextureRect" type="TextureRect" parent="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Panel4"]
@@ -463,3 +471,5 @@ anims/outro = SubResource( 6 )
 [node name="Timer" type="Timer" parent="Timers"]
 
 [connection signal="pressed" from="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/Button/startButton" to="." method="_on_startButton_pressed"]
+[connection signal="gui_input" from="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Panel" to="." method="_on_Panel_gui_input"]
+[connection signal="gui_input" from="GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Panel2" to="." method="_on_Panel2_gui_input"]

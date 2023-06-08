@@ -7,8 +7,14 @@ var world = null
 onready var timer = $Timers/Timer
 onready var highscore_label = $GameTitle/CenterContainer/VBoxContainer2/Score/HBoxContainer/Label2
 
+onready var sound_node = $GameTitle/CenterContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Panel/TextureRect
+var soundon_image = "res://assets/icons/audioOn.png"
+var soundoff_image = "res://assets/icons/audioOff.png"
+
 func _ready():
-#	_intro()
+	if Global.sound: sound_node.texture = load(soundon_image)
+	else: sound_node.texture = load(soundoff_image)
+	
 	highscore_label.text = str(format_number(Global.highscore))
 	game_title_anim.play("intro")
 #	game_title.rect_position.y = 0
@@ -27,6 +33,10 @@ func get_screen():
 	pass
 
 func _intro() -> void:
+	Global.saveData()
+	Global.level = Global.main_level
+	Global.currentPoints = 0
+	Global.levelPoints = Global.mainPoints
 	highscore_label.text = str(format_number(Global.highscore))
 	game_title_anim.play("intro")
 	tween.start()
@@ -52,4 +62,23 @@ func exit_gameover():
 	
 func _on_startButton_pressed():
 	_outro()
+	pass # Replace with function body.
+
+
+func _on_Panel2_gui_input(event):
+	if event is InputEventMouseButton:
+		OS.shell_open("https://twitter.com/ragehive")
+	pass # Replace with function body.
+
+
+func _on_Panel_gui_input(event):
+	if event is InputEventMouseButton and event.pressed:
+		Global.sound = !Global.sound
+		Global.saveData()
+		
+		if Global.sound: sound_node.texture = load(soundon_image)
+		else: sound_node.texture = load(soundoff_image)
+		
+		if Global.sound: AudioServer.set_bus_mute(0, true)
+		else: AudioServer.set_bus_mute(0, false)
 	pass # Replace with function body.

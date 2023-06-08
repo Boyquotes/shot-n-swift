@@ -24,6 +24,7 @@ enum difficulties {
 }
 
 var difficulty = ""
+var difficulty_level = 0
 var move_offset = 40
 
 func _ready():

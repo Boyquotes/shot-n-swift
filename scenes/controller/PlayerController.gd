@@ -353,6 +353,7 @@ func _on_ProgressTimer_timeout():
 
 	if value <= 0: 
 		ball.die()
+		Input.vibrate_handheld(300)
 		set_gameover()
 		progress_timer.stop()
 	pass # Replace with function body.

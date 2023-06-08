@@ -91,6 +91,7 @@ func moveToTarget(target_pos: Vector2, target_rot, speed) -> void:
 	yield(tween, "tween_completed")
 	controller.push_back(push_vel)
 	if !ricochet_mode: controller.spawn_splash_particle(target_pos)
+	else:  Input.vibrate_handheld(100)
 	set_indicator(next_target)
 	
 	
